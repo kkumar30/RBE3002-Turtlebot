@@ -1,0 +1,8 @@
+prefix=/home/kkumar/RBE3002-Turtlebot/install
+
+Name: Lab
+Description: Description of Lab
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/kkumar/RBE3002-Turtlebot/install/lib 
+Requires: 

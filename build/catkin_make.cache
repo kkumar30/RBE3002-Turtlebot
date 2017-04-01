@@ -1,0 +1,2 @@
+Lab
+-DCATKIN_DEVEL_PREFIX=/home/kkumar/RBE3002-Turtlebot/devel -DCMAKE_INSTALL_PREFIX=/home/kkumar/RBE3002-Turtlebot/install -G Unix Makefiles
