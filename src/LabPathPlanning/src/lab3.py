@@ -222,24 +222,23 @@ def  publishGridCells(grid):
     cells.cell_width = resolution 
     cells.cell_height = resolution
 
-    ctr=0
+    ctr=-1
     #does a nested for loop for updating all rows and cols
-    for i in range(1,height): 
-        ctr = ctr+ 1
+    for i in range(0,height): 
+        ctr = ctr + 1
         for j in range(1,width):
             ctr = ctr+ 1
             if (grid[ctr] == 100):
                 print "ctr=", ctr, "grid_val=", grid[ctr]
                 point=Point()
-                point.x= j*resolution + 0.95 #change these values depending on the grid size
-                point.y= i*resolution - 0.15 #change these vals depending on the grid size
+                point.x= j*resolution + 0.95 - 0.3#change these values depending on the grid size, 0.3 is the offset to account for the shift 
+                point.y= i*resolution - 0.15 + 0.3#change these vals depending on the grid size, 0.3 is the offset
                 point.z=0
                 cells.cells.append(point)
                 pub.publish(cells)
-                rospy.sleep(0.1) #just for printing values slowly
-
+                #rospy.sleep(0.03) #just for printing values slowly
     pub.publish(cells)
-    rospy.sleep(0.25)
+    rospy.sleep(0.5)
   
 
 
