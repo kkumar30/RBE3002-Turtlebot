@@ -10,6 +10,7 @@ from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point
 from tf.transformations import euler_from_quaternion
 from heapq import *
 #Add additional imports for each of the message types used
+#https://docs.python.org/2/library/heapq.html - Go to this url to see Priority Queue documentation
 
 
 # Map Values
@@ -19,9 +20,10 @@ from heapq import *
 
 function A*(start,goal)
 	#initially only the starting node is known
-	closedSet:={} #Set of evaluated nodes
+	closedSet = [] #Set of evaluated nodes, makes it a heapSort
 
-	openSet:={}
+##MAIN PSEUDOCODE STARTS HERE 
+	openSet = []
 
 	cameFrom := the empty map
 
