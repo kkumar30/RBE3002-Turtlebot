@@ -257,10 +257,6 @@ def talker():
 
 # This is the program's main function
 if __name__ == '__main__':
-    # Change this node name to include your username
-    #rospy.init_node('LabPathPlanning')
-
-    #These are global variables. Write "global <variable_name>" in any other function to gain access to these global variables 
     global pub
     global pose
     global odom_tf

@@ -8,7 +8,7 @@ from nav_msgs.msg import GridCells
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point
 from tf.transformations import euler_from_quaternion
-from heapq import *
+from Queue import PriorityQueue
 #Add additional imports for each of the message types used
 #https://docs.python.org/2/library/heapq.html - Go to this url to see Priority Queue documentation
 
@@ -18,12 +18,12 @@ from heapq import *
 # – 0 – Empty
 # – -1 – Unknown
 
-function A*(start,goal)
+function A*(start_x, start_y,goal_x, goal_y)
 	#initially only the starting node is known
-	closedSet = [] #Set of evaluated nodes, makes it a heapSort
+	closedSet = PriorityQueue() #Set of evaluated nodes, makes it a heapSort
 
 ##MAIN PSEUDOCODE STARTS HERE 
-	openSet = []
+	openSet = Queue()
 
 	cameFrom := the empty map
 
@@ -63,3 +63,28 @@ function A*(start,goal)
 			fCost[neighbor] := gCost[neighbor]
 
 	return failed
+
+
+
+def talker():
+    global pub
+    rospy.init_node('LabPathPlanning')        
+    sub = rospy.Subscriber("/map", OccupancyGrid, simpleMapCallback)
+    pub = rospy.Publisher("/myGridCells", GridCells, queue_size=1)
+    rospy.sleep(1)
+
+    while (1 and not rospy.is_shutdown()):
+        publishGridCells(mapData) #publishing map data every 2 seconds
+        rospy.sleep(2)  
+        print("Complete")
+
+# This is the program's main function
+if __name__ == '__main__':
+    # Change this node name to include your username
+    rospy.init_node('LabPathPlanning')
+    #These are global variables. Write "global <variable_name>" in any other function to gain access to these global variables
+
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass
