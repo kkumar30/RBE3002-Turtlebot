@@ -50,19 +50,15 @@ def updateMap(OccuGrid):
 
 """
 How to call this function:
-
 graph = 2D matrix zeros for normal squares, 100s for walls
-
 start_pose = matrix with two elements for starting node, x positon in [0] y position in [1]
-
 start_pose = matrix with two elements for ending node, x positon in [0] y position in [1]
-
 returns: array of 2D arrays, corresponding to the nodes that the robot needs to move to in order to recach its goal
-
 """
 	
 def AStar(start_pose, goal_pose, graph):
 
+	FrontCells = GridCells()
 
 	frontNodes = [] #Frontier nodes
 	checkedNodes = [] #Checked nodes
@@ -94,6 +90,9 @@ def AStar(start_pose, goal_pose, graph):
 			graph[temp_node[0]][temp_node[1]] = findhCost(temp_node, goal_pose, graph) + findfCost(temp_node, start_pose, graph)
 			findCost(temp_node, start_pose, goal_pose, graph)
 			frontNodes.append(temp_node)
+				
+			FrontCells.cells.append(Point(temp_node[0],temp_node[1],0))
+	
 			temp_node.append(current_pose) #node
 			checkedNodes.append(temp_node)
 				
@@ -107,6 +106,9 @@ def AStar(start_pose, goal_pose, graph):
 			graph[temp_node[0]][temp_node[1]] = findhCost(temp_node, goal_pose, graph) + findfCost(temp_node, start_pose, graph)		
 			findCost(temp_node, start_pose, goal_pose, graph)
 			frontNodes.append(temp_node)
+
+			FrontCells.cells.append(Point(temp_node[0],temp_node[1],0))
+
 			temp_node.append(current_pose)
 			checkedNodes.append(temp_node)
 			
@@ -121,6 +123,9 @@ def AStar(start_pose, goal_pose, graph):
 			graph[temp_node[0]][temp_node[1]] = findhCost(temp_node, goal_pose, graph) + findfCost(temp_node, start_pose, graph)
 			findCost(temp_node, start_pose, goal_pose, graph)
 			frontNodes.append(temp_node)
+
+			FrontCells.cells.append(Point(temp_node[0],temp_node[1],0))
+
 			temp_node.append(current_pose)
 			checkedNodes.append(temp_node)
 
@@ -135,6 +140,9 @@ def AStar(start_pose, goal_pose, graph):
 			graph[temp_node[0]][temp_node[1]] = findhCost(temp_node, goal_pose, graph) + findfCost(temp_node, start_pose, graph)
 			findCost(temp_node, start_pose, goal_pose, graph)
 			frontNodes.append(temp_node)
+
+			FrontCells.cells.append(Point(temp_node[0],temp_node[1],0))
+
 			temp_node.append(current_pose)
 			checkedNodes.append(temp_node)
 
@@ -147,14 +155,19 @@ def AStar(start_pose, goal_pose, graph):
 		current_pose = [bestnode[0], bestnode[1]]
 		
 		
-		
+		pub_frontier.publish(FrontCells)
 
+		time.sleep(1)
+		
+		
 		if bestnode[0] == goal_pose[0] and  bestnode[1] == goal_pose[1]:
 			goalfound = True
 		
 	
 	current_pose = bestnode	
 	path.append(current_pose)
+
+
 	startfound = False
 	while not startfound: # This loop finds the path throught the checkes nodes
 		
@@ -220,4 +233,3 @@ if __name__ == '__main__':
         talker()
     except rospy.ROSInterruptException:
         pass
-
