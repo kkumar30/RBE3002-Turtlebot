@@ -22,6 +22,8 @@ import time
 #  0  Empty
 #  -1  Unknown
 
+
+
 def findhCost(current_pose, goal_pose, graph):
 
 	return math.sqrt((current_pose[0] - goal_pose[0])**2 + (current_pose[1] - goal_pose[1])**2)
@@ -38,7 +40,20 @@ def findCost(current_pose, start_pose, goal_pose, graph):
 	else :
 		return graph[current_pose[0]][current_pose[1]]
 
-def Astar(start_pose, goal_pose, graph):
+"""
+How to call this function:
+
+graph = 2D matrix zeros for normal squares, 100s for walls
+
+start_pose = matrix with two elements for starting node, x positon in [0] y position in [1]
+
+start_pose = matrix with two elements for ending node, x positon in [0] y position in [1]
+
+returns: array of 2D arrays, corresponding to the nodes that the robot needs to move to in order to recach its goal
+
+"""
+	
+def AStar(start_pose, goal_pose, graph):
 
 
 	frontNodes = [] #Frontier nodes
