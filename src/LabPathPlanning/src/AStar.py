@@ -179,6 +179,13 @@ def AStar(start_pose, goal_pose, graph):
 
 def talker():
     global pub
+    global pub_end
+    global pub_path
+    global pub_visited
+    global pub_frontier
+    global pub_waypoints
+
+    
     rospy.init_node('LabPathPlanning')        
     sub = rospy.Subscriber("/map", OccupancyGrid, updateMap, queue_size=1)
     #pub = rospy.Publisher("/myGridCells", GridCells, queue_size=1)
