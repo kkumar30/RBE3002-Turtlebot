@@ -236,7 +236,7 @@ def  publishGridCells(grid):
                 point.z=0
                 cells.cells.append(point)
                 pub.publish(cells)
-                #rospy.sleep(0.03) #just for printing values slowly
+                rospy.sleep(0.1) #just for printing values slowly
     pub.publish(cells)
     rospy.sleep(0.5)
   

@@ -40,6 +40,14 @@ def findCost(current_pose, start_pose, goal_pose, graph):
 	else :
 		return graph[current_pose[0]][current_pose[1]]
 
+def updateMap(OccuGrid):
+	global og
+	global updateMap
+
+	print 'RETRIEVED MAP...'
+	og = OccuGrid
+	updateMap = True
+
 """
 How to call this function:
 
@@ -168,3 +176,41 @@ def AStar(start_pose, goal_pose, graph):
 		
 
 	return nodepath
+
+def talker():
+    global pub
+    rospy.init_node('LabPathPlanning')        
+    sub = rospy.Subscriber("/map", OccupancyGrid, updateMap, queue_size=1)
+    #pub = rospy.Publisher("/myGridCells", GridCells, queue_size=1)
+
+
+    pub_end = rospy.Publisher('/EndPoints', GridCells, queue_size=10)
+    pub_path = rospy.Publisher('/PathPoints', GridCells, queue_size=10)
+    pub_visited = rospy.Publisher('/VisitedPoints', GridCells, queue_size=10)
+    pub_frontier = rospy.Publisher('/FrontierPoints', GridCells, queue_size=10)
+    pub_waypoints = rospy.Publisher('/Waypoints', GridCells, queue_size=10)
+
+    #nav_sub = rospy.Subscriber('/myNavSub', PoseStamped, navToPose)
+
+
+
+    rospy.sleep(1)
+
+    while (1 and not rospy.is_shutdown()):
+        #publishGridCells(mapData) #publishing map data every 2 seconds
+        rospy.sleep(2)  
+        print("Complete")
+
+
+# This is the program's main function
+if __name__ == '__main__':
+    global pub
+    global pose
+    global odom_tf
+    global odom_list
+
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass
+
