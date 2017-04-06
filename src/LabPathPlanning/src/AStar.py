@@ -84,7 +84,7 @@ def AStar(start_pose, goal_pose, graph):
 		temp_node = [current_pose[0] + 1, current_pose[1]]
 		checked = False
 		for node in checkedNodes:
-			if node[0] == temp_node[0] and  node[1] == temp_node[1] or temp_node[0] < 0 or temp_node[1] < 0 or temp_node[0] > 4 or temp_node[1] > 4:
+			if node[0] == temp_node[0] and  node[1] == temp_node[1] or temp_node[0] < 0 or temp_node[1] < 0 or temp_node[0] > 4 or temp_node[1] > 4: #change 4 to grid.length and grid.width
 				checked = True
 		if checked == False and graph[temp_node[0]][temp_node[1]] != 100:
 			graph[temp_node[0]][temp_node[1]] = findhCost(temp_node, goal_pose, graph) + findfCost(temp_node, start_pose, graph)
@@ -104,7 +104,6 @@ def AStar(start_pose, goal_pose, graph):
 				checked = True
 		if checked == False and graph[temp_node[0]][temp_node[1]] != 100:
 			graph[temp_node[0]][temp_node[1]] = findhCost(temp_node, goal_pose, graph) + findfCost(temp_node, start_pose, graph)		
-			findCost(temp_node, start_pose, goal_pose, graph)
 			frontNodes.append(temp_node)
 
 			FrontCells.cells.append(Point(temp_node[0],temp_node[1],0))
@@ -154,7 +153,7 @@ def AStar(start_pose, goal_pose, graph):
 		frontNodes.remove(bestnode)
 		current_pose = [bestnode[0], bestnode[1]]
 		
-		
+		print(FrontCells)
 		pub_frontier.publish(FrontCells)
 
 		time.sleep(1)
@@ -212,7 +211,11 @@ def talker():
 
     #nav_sub = rospy.Subscriber('/myNavSub', PoseStamped, navToPose)
 
+    start = [0,0]
+    end = [3,3]
+    grid = [[0 for col in range(5)] for row in range(5)]
 
+    AStar(start, end, grid)
 
     rospy.sleep(1)
 
