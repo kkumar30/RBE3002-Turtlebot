@@ -94,10 +94,11 @@ class Astar:
                 #     continue
                 f_val = self.heuristic(n) + current.cost + self.costTo(current, n)
                 if ((current.cost + self.costTo(current, n)) < n.cost) and not self.isOccupied(n) :
-                    a = [i for i in path]
-                    a.append(n)
+                    lvals = [k for k in path]
+                    lvals.append(n)
+                    #determine the first cost
                     n.cost = current.cost + self.costTo(current, n)
-                    self.frontier.put((f_val, (n, a)))
+                    self.frontier.put((f_val, (n, lvals)))
                     frontierList.append(n)
             
             publishVisitedCells(frontierList, self.pub_frontier)
@@ -119,9 +120,6 @@ class Astar:
         pub_frontier.publish(cells)
         publishVisitedCells(waypoints, self.pub_waypoints)
         print "Visit pub done........."
-
-    def within(self, n):
-        return n.x <= 37 and n.x >= 0 and n.y >= 0 and n.y <= 37
 
     def heuristic(self, pnt):
         return (self.goal.point.x - pnt.point.x)*(self.goal.point.x - pnt.point.x) + (self.goal.point.y - pnt.point.y)*(self.goal.point.y - pnt.point.y)
@@ -247,7 +245,7 @@ if __name__ == '__main__':
     startPoint.y = 3
     goalPoint = Point()
     goalPoint.x = 2 
-    goalPoint.y = 7 
+    goalPoint.y = 12 
 
     isMapUpdated = False
    
@@ -258,13 +256,6 @@ if __name__ == '__main__':
     pub_visited = rospy.Publisher('/Visitedpts', GridCells, queue_size=10)
     pub_frontier = rospy.Publisher('/Frontierpts', GridCells, queue_size=10)
     pub_waypoints = rospy.Publisher('/Waypoints', GridCells, queue_size=10) #Nathaniel's the best for fixing this!!
-
-    #nav_sub = rospy.Subscriber('/mynavsub', PoseStamped, navToPose)
-    # Use this object to get the robot's Odometry 
-    #make the robot keep doing something...
-    #rospy.Timer(rospy.Duration(0.01), timerCallback)
-
-    #odom_list = tf.TransformListener()
     # Use this command to make the program wait for some seconds
     rospy.sleep(rospy.Duration(2, 0))
     
